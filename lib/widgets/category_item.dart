@@ -10,8 +10,7 @@ class CategoryItem extends StatelessWidget {
 
   void selectCategory(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(CategoryMealsScreen.routeName,arguments: {
-      'id':id,
-      'title':title
+      'id':id
     });
     // Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
     //   return CategoryMealsScreen(categoryId: this.id,categoryTitle: this.title,);
