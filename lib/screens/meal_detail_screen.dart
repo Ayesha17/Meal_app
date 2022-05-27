@@ -1,8 +1,33 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_app/data.dart';
 
 class MealDetailScreen extends StatelessWidget {
   static const routeName = '/meal_detail';
+
+
+  Widget buildHeader(BuildContext context, String text) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
+    );
+  }
+
+  Widget buildChild(Widget child) {
+    return Container(
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+            color: Colors.white,
+            border: Border.all(color: Colors.black45)),
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
+        height: 150,
+        width: 300,
+        child: child);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +39,8 @@ class MealDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(meal.title),
       ),
-      body: Column(
+      body: SingleChildScrollView(
+          child: Column(
         children: [
           Container(
             child: Image.network(
@@ -24,32 +50,49 @@ class MealDetailScreen extends StatelessWidget {
             height: 300,
             width: double.infinity,
           ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Text(
-              "Ingredients",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(color: Colors.white,
-              border: Border.all(color: Colors.black45)
-            ),
-            height: 200,
-            width: 300,
-            child: ListView.builder(
+          buildHeader(context, "Ingredients"),
+          buildChild(
+            ListView.builder(
               itemBuilder: (ctx, index) => Card(
                 color: Theme.of(context).colorScheme.secondary,
-                child: Text(meal.ingredients[index]),
+                child: Padding(
+                  child: Text(
+                    meal.ingredients[index],
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                ),
               ),
               itemCount: meal.ingredients.length,
             ),
+          ),
+          buildHeader(context, "Steps"),
+          buildChild(
+            ListView.builder(
+              itemBuilder: (ctx, index) => Column(children: [
+                ListTile(
+                  leading: CircleAvatar(
+                    child: Text('# ${index + 1}'),
+                  ),
+                  title: Text(meal.steps[index]),
+                ),
+                const Divider(
+                  height: 2,
+                )
+              ]),
+              itemCount: meal.steps.length,
+            ),
           )
         ],
-      ),
+      )),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        // child: Image.asset(Icons.star_outlined),
+        onPressed: () {
+          Navigator.of(context).pop(mealId);
+        },
+        child: const Icon(
+          Icons.delete,
+          color: Colors.black45,
+        ),
       ),
     );
   }
