@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meal_app/screens/filter_screen.dart';
 
 import 'favorite_screen.dart';
 
@@ -28,7 +29,7 @@ class MainDrawer extends StatelessWidget {
           ),
           buildList('Meals', Icons.restaurant,
               () => {Navigator.of(context).pushReplacementNamed('/')}),
-          buildList('Filters', Icons.settings, () => {Navigator.of(context).pushReplacementNamed(FavoriteScreen.routeName)})
+          buildList('Filters', Icons.settings, () => {Navigator.of(context).pushNamed(FilterScreen.routeName)})
         ],
       ),
     );
